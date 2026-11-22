@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import seek7.service.SearchEngineService;
 
@@ -50,13 +51,13 @@ public final class MiniSearchEngineServiceProvider implements SearchEngineServic
     }
 
     @Override
-    public SearchResponse search(String query, Mode mode, int previewLimit) {
+    public SearchResponse search(String query, Mode mode, int resultLimit) {
         int allMatchesLimit = Math.max(1, engine.docs.size());
         MiniSearchEngine.SearchResult result = engine.search(
                 query, allMatchesLimit, mode == Mode.ALL_TERMS);
 
         List<SearchHit> hits = new ArrayList<>();
-        int hitLimit = Math.min(Math.max(0, previewLimit), result.ranked.size());
+        int hitLimit = Math.min(Math.max(0, resultLimit), result.ranked.size());
         List<String> terms = MiniSearchEngine.tokenize(query);
         for (int i = 0; i < hitLimit; i++) {
             MiniSearchEngine.Scored score = result.ranked.get(i);
@@ -70,6 +71,16 @@ public final class MiniSearchEngineServiceProvider implements SearchEngineServic
             spellingHints.add(new SpellingHint(hint[0], hint[1]));
         }
         return new SearchResponse(result.ranked.size(), hits, spellingHints);
+    }
+
+    @Override
+    public Optional<IndexedDocument> documentById(int documentId) {
+        if (documentId < 0 || documentId >= engine.docs.size()) {
+            return Optional.empty();
+        }
+
+        MiniSearchEngine.Document document = engine.docs.get(documentId);
+        return Optional.of(new IndexedDocument(document.id, document.name, document.text));
     }
 
     private static int currentTokenStart(String query) {

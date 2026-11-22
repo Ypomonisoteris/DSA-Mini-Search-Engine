@@ -6,9 +6,9 @@
 
     <groupId>com.seek7</groupId>
     <artifactId>seek7</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
     <name>SEEK7</name>
-    <description>JavaFX search experience for the SEEK7 local mini search engine.</description>
+    <description>JavaFX search results and document viewer for the SEEK7 local mini search engine.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

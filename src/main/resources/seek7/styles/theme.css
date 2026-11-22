@@ -1,4 +1,4 @@
-/* SEEK7 v1.2.0 search experience */
+/* SEEK7 v1.3.0 results and document reading experience */
 .app-shell {
     -fx-font-family: "Inter";
     -fx-background-color: #0B1020;
@@ -645,4 +645,199 @@
 .placeholder-note-copy {
     -fx-font-size: 12px;
     -fx-text-fill: #91A1B8;
+}
+
+.results-page, .document-page {
+    -fx-padding: 40 56 56 56;
+    -fx-alignment: TOP_LEFT;
+}
+
+.results-page-heading {
+    -fx-padding: 4 0 0 0;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-padding: 9 12 9 12;
+    -fx-text-fill: #AFC1D8;
+    -fx-font-size: 11px;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-background-color: #151E30;
+    -fx-text-fill: #F8FAFC;
+}
+
+.back-button:focused {
+    -fx-border-color: #3B82F6;
+    -fx-border-radius: 8;
+}
+
+.result-card-list {
+    -fx-padding: 2 0 0 0;
+}
+
+.result-card {
+    -fx-background-color: #151E30;
+    -fx-background-radius: 12;
+    -fx-border-color: #263349;
+    -fx-border-radius: 12;
+    -fx-padding: 18 20 18 20;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+    -fx-text-fill: #F8FAFC;
+}
+
+.result-card:hover {
+    -fx-background-color: #19263A;
+    -fx-border-color: #3B82F6;
+}
+
+.result-card:focused {
+    -fx-border-color: #60A5FA;
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.16), 12, 0.1, 0, 2);
+}
+
+.result-ranking {
+    -fx-min-width: 34;
+    -fx-min-height: 34;
+    -fx-alignment: CENTER;
+    -fx-background-color: #1A2C47;
+    -fx-background-radius: 8;
+    -fx-text-fill: #93C5FD;
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 10px;
+    -fx-font-weight: 700;
+}
+
+.result-file-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #E5ECF6;
+}
+
+.result-document-id, .viewer-document-id {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 9px;
+    -fx-text-fill: #71839D;
+}
+
+.result-score-caption {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 8px;
+    -fx-font-weight: 600;
+    -fx-letter-spacing: 0.4px;
+    -fx-text-fill: #71839D;
+}
+
+.result-score {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #7FA9E8;
+}
+
+.result-snippet-flow {
+    -fx-line-spacing: 4px;
+}
+
+.snippet-copy {
+    -fx-fill: #94A3B8;
+    -fx-font-family: "Inter";
+    -fx-font-size: 11px;
+}
+
+.snippet-match {
+    -fx-fill: #BFDBFE;
+    -fx-font-weight: 700;
+}
+
+.spelling-suggestions {
+    -fx-padding: 12 16 12 16;
+    -fx-background-color: #111C2E;
+    -fx-background-radius: 10;
+    -fx-border-color: #263349;
+    -fx-border-radius: 10;
+}
+
+.spelling-suggestions .label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #AFC1D8;
+}
+
+.spelling-suggestion-button {
+    -fx-background-color: transparent;
+    -fx-padding: 2 4 2 4;
+    -fx-text-fill: #93C5FD;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.spelling-suggestion-button:hover {
+    -fx-text-fill: #DBEAFE;
+}
+
+.results-empty-state {
+    -fx-min-height: 124;
+    -fx-padding: 24;
+    -fx-background-color: #151E30;
+    -fx-background-radius: 12;
+    -fx-border-color: #263349;
+    -fx-border-radius: 12;
+}
+
+.document-page {
+    -fx-spacing: 22;
+}
+
+.document-reading-card {
+    -fx-padding: 24;
+    -fx-background-color: #151E30;
+    -fx-background-radius: 12;
+    -fx-border-color: #263349;
+    -fx-border-radius: 12;
+}
+
+.document-content {
+    -fx-background-color: #111A2B;
+    -fx-control-inner-background: #111A2B;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: #263349;
+    -fx-border-radius: 8;
+    -fx-padding: 18;
+    -fx-font-family: "Inter";
+    -fx-font-size: 13px;
+    -fx-text-fill: #DCE5F2;
+    -fx-highlight-fill: #1D4ED8;
+    -fx-highlight-text-fill: #FFFFFF;
+}
+
+.document-content .content {
+    -fx-background-color: #111A2B;
+    -fx-background-radius: 8;
+}
+
+.document-content .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 9;
+}
+
+.document-content .scroll-bar:vertical .thumb {
+    -fx-background-color: #334155;
+    -fx-background-radius: 99;
+}
+
+.document-content .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.viewer-loading {
+    -fx-padding: 28 12 28 12;
+    -fx-font-size: 12px;
+    -fx-text-fill: #93C5FD;
 }

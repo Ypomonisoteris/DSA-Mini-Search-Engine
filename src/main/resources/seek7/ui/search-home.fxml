@@ -77,13 +77,13 @@
                 </HBox>
             </top>
             <center>
-                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="content-scroll">
+                <ScrollPane fx:id="contentScroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="content-scroll">
                     <content>
                         <StackPane fx:id="pageHost" alignment="TOP_CENTER" styleClass="page-host">
                             <VBox fx:id="searchPage" alignment="TOP_CENTER" spacing="0.0" styleClass="search-page">
                                 <padding><Insets top="40.0" right="56.0" bottom="48.0" left="56.0"/></padding>
 
-                                <VBox alignment="CENTER" spacing="16.0" styleClass="hero-section">
+                                <VBox fx:id="heroSection" alignment="CENTER" spacing="16.0" styleClass="hero-section">
                                     <HBox alignment="CENTER" spacing="8.0" styleClass="hero-eyebrow">
                                         <StackPane prefWidth="8.0" prefHeight="8.0" styleClass="accent-dot"/>
                                         <Label text="A QUIETER WAY TO FIND" styleClass="eyebrow"/>
@@ -92,7 +92,7 @@
                                     <Label text="Search across your local documents with clarity and focus."
                                            styleClass="hero-description" wrapText="true" textAlignment="CENTER"/>
 
-                                    <VBox spacing="12.0" maxWidth="760.0" styleClass="search-block">
+                                    <VBox fx:id="searchBlock" spacing="12.0" maxWidth="760.0" styleClass="search-block">
                                         <HBox fx:id="searchFieldShell" alignment="CENTER_LEFT" spacing="16.0" styleClass="search-field-shell">
                                             <StackPane fx:id="searchIcon" prefWidth="24.0" prefHeight="24.0"/>
                                             <TextField fx:id="searchInput" promptText="Search your documents..."
@@ -123,18 +123,6 @@
                                             <Label fx:id="feedbackLabel" text="" visible="false" managed="false"
                                                    styleClass="search-feedback" wrapText="true"/>
                                         </HBox>
-                                        <VBox fx:id="resultsPanel" spacing="12.0" visible="false" managed="false"
-                                              styleClass="search-results-preview">
-                                            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="results-header">
-                                                <VBox spacing="4.0">
-                                                    <Label text="SEARCH COMPLETE" styleClass="support-label"/>
-                                                    <Label fx:id="resultSummary" text="" styleClass="results-summary"/>
-                                                </VBox>
-                                                <Region HBox.hgrow="ALWAYS"/>
-                                                <Label fx:id="resultQuery" text="" styleClass="result-query"/>
-                                            </HBox>
-                                            <VBox fx:id="resultsList" spacing="0.0"/>
-                                        </VBox>
                                     </VBox>
                                 </VBox>
 

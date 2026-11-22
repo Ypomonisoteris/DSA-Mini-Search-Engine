@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 import java.util.ServiceLoader;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class SearchEngineServiceIntegrationTest {
     @BeforeEach
     void loadFixtureDocuments() throws IOException {
         Files.writeString(documents.resolve("01-both.txt"),
-                "rocket orbit rocketry rocketship rockman rockstar rockfall rockhouse rockbase rockpath rockpool rockgarden");
+                "rocket orbit rocketry rocketship rockman rockstar rockfall rockhouse rockbase rockpath rockpool rockgarden\nsecond paragraph");
         Files.writeString(documents.resolve("02-rocket.txt"), "rocket engine launch");
         Files.writeString(documents.resolve("03-orbit.txt"), "orbit satellite station");
         Files.writeString(documents.resolve("04-other.txt"), "cooking garlic olive");
@@ -67,6 +68,46 @@ class SearchEngineServiceIntegrationTest {
 
         assertTrue(response.spellingHints().stream()
                 .anyMatch(hint -> hint.typedTerm().equals("roket") && hint.suggestion().equals("rocket")));
+        assertTrue(response.hits().isEmpty());
+    }
+
+    @Test
+    void returnsEveryRankedHitWithEngineMetadataAndSnippet() {
+        SearchEngineService.SearchResponse response = service.search(
+                "rocket orbit", SearchEngineService.Mode.ANY_TERM, Integer.MAX_VALUE);
+
+        assertEquals(3, response.totalMatches());
+        assertEquals(3, response.hits().size());
+        assertEquals("02-rocket.txt", response.hits().getFirst().fileName());
+        assertTrue(response.hits().getFirst().score() > 0.0);
+        SearchEngineService.SearchHit combined = response.hits().stream()
+                .filter(hit -> hit.documentId() == 0)
+                .findFirst()
+                .orElseThrow();
+        assertTrue(combined.snippet().contains("rocket orbit"));
+        assertTrue(response.hits().get(0).score() >= response.hits().get(1).score());
+        assertTrue(response.hits().get(1).score() >= response.hits().get(2).score());
+    }
+
+    @Test
+    void retrievesOriginalIndexedDocumentTextAndRejectsInvalidIds() {
+        Optional<SearchEngineService.IndexedDocument> document = service.documentById(0);
+
+        assertTrue(document.isPresent());
+        assertEquals("01-both.txt", document.get().fileName());
+        assertEquals("rocket orbit rocketry rocketship rockman rockstar rockfall rockhouse rockbase rockpath rockpool rockgarden\nsecond paragraph",
+                document.get().content());
+        assertTrue(service.documentById(-1).isEmpty());
+        assertTrue(service.documentById(4).isEmpty());
+    }
+
+    @Test
+    void respectsExplicitResultLimitWhileKeepingMatchCount() {
+        SearchEngineService.SearchResponse response = service.search(
+                "rocket orbit", SearchEngineService.Mode.ANY_TERM, 1);
+
+        assertEquals(3, response.totalMatches());
+        assertEquals(1, response.hits().size());
     }
 
     @Test
