@@ -2,13 +2,14 @@ package seek7;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ServiceLoader;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import seek7.service.DocumentLibrarySummary;
+import seek7.service.SearchEngineService;
 import seek7.ui.SearchHomeController;
 
 /** JavaFX entry point for the SEEK7 desktop foundation. */
@@ -23,7 +24,11 @@ public final class Seek7Application extends Application {
         Parent root = loader.load();
 
         SearchHomeController controller = loader.getController();
-        controller.setDocumentCount(DocumentLibrarySummary.countTextDocuments(Path.of("documents")));
+        SearchEngineService searchEngineService = ServiceLoader.load(SearchEngineService.class)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("SEEK7 search engine provider is unavailable."));
+        searchEngineService.load(Path.of("documents"));
+        controller.setSearchEngineService(searchEngineService);
 
         Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
         scene.getStylesheets().add(
@@ -32,6 +37,7 @@ public final class Seek7Application extends Application {
         stage.setTitle("SEEK7 — Local Search");
         stage.setMinWidth(1000);
         stage.setMinHeight(700);
+        stage.setOnHidden(event -> controller.close());
         stage.setScene(scene);
         stage.show();
     }

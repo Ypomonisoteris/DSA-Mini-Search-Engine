@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -52,7 +53,7 @@
                     </StackPane>
                     <VBox spacing="4.0">
                         <Label text="Personal workspace" styleClass="profile-title"/>
-                        <Label text="Version 1.1.0" styleClass="profile-caption"/>
+                        <Label text="Version 1.2.0" styleClass="profile-caption"/>
                     </VBox>
                 </HBox>
             </VBox>
@@ -92,20 +93,47 @@
                                            styleClass="hero-description" wrapText="true" textAlignment="CENTER"/>
 
                                     <VBox spacing="12.0" maxWidth="760.0" styleClass="search-block">
-                                        <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="search-field-shell">
+                                        <HBox fx:id="searchFieldShell" alignment="CENTER_LEFT" spacing="16.0" styleClass="search-field-shell">
                                             <StackPane fx:id="searchIcon" prefWidth="24.0" prefHeight="24.0"/>
-                                            <TextField promptText="Search your documents..." editable="false"
-                                                       focusTraversable="false" styleClass="search-input" HBox.hgrow="ALWAYS"/>
-                                            <Label text="V1.1" styleClass="search-shortcut"/>
+                                            <TextField fx:id="searchInput" promptText="Search your documents..."
+                                                       styleClass="search-input" HBox.hgrow="ALWAYS"
+                                                       onAction="#submitSearch"/>
+                                            <Button fx:id="searchButton" text="Search" onAction="#submitSearch"
+                                                    minWidth="112.0" prefWidth="112.0" maxWidth="112.0"
+                                                    styleClass="primary-search-button"/>
                                         </HBox>
-                                        <VBox spacing="8.0" styleClass="suggestions-placeholder">
+                                        <VBox fx:id="suggestionPanel" spacing="8.0"
+                                              visible="false" managed="false" styleClass="autocomplete-panel">
                                             <HBox alignment="CENTER_LEFT" spacing="8.0">
-                                                <Label text="AUTOCOMPLETE SUGGESTIONS" styleClass="support-label"/>
+                                                <Label text="SUGGESTED TERMS" styleClass="support-label"/>
                                                 <Region HBox.hgrow="ALWAYS"/>
-                                                <Label text="COMING SOON" styleClass="suggestions-status"/>
+                                                <Label text="UP TO 8" styleClass="suggestions-status"/>
                                             </HBox>
-                                            <Label text="Matching terms will appear here as you search."
-                                                   styleClass="support-copy"/>
+                                            <VBox fx:id="suggestionList" spacing="4.0"/>
+                                        </VBox>
+                                        <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="search-controls">
+                                            <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="mode-switcher">
+                                                <Label text="MATCH" styleClass="search-mode-label"/>
+                                                <ToggleButton fx:id="anyTermToggle" text="Any term"
+                                                              styleClass="mode-toggle"/>
+                                                <ToggleButton fx:id="allTermsToggle" text="All terms"
+                                                              styleClass="mode-toggle"/>
+                                            </HBox>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <Label fx:id="feedbackLabel" text="" visible="false" managed="false"
+                                                   styleClass="search-feedback" wrapText="true"/>
+                                        </HBox>
+                                        <VBox fx:id="resultsPanel" spacing="12.0" visible="false" managed="false"
+                                              styleClass="search-results-preview">
+                                            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="results-header">
+                                                <VBox spacing="4.0">
+                                                    <Label text="SEARCH COMPLETE" styleClass="support-label"/>
+                                                    <Label fx:id="resultSummary" text="" styleClass="results-summary"/>
+                                                </VBox>
+                                                <Region HBox.hgrow="ALWAYS"/>
+                                                <Label fx:id="resultQuery" text="" styleClass="result-query"/>
+                                            </HBox>
+                                            <VBox fx:id="resultsList" spacing="0.0"/>
                                         </VBox>
                                     </VBox>
                                 </VBox>
@@ -118,11 +146,11 @@
                                                 <Label text="Your search activity, in one place." styleClass="card-description"/>
                                             </VBox>
                                             <Region HBox.hgrow="ALWAYS"/>
-                                            <Label text="0" styleClass="count-pill"/>
+                                            <Label fx:id="recentSearchCount" text="0" styleClass="count-pill"/>
                                         </HBox>
                                         <VBox alignment="CENTER_LEFT" spacing="8.0" styleClass="empty-state">
-                                            <Label text="No searches yet" styleClass="empty-title"/>
-                                            <Label text="Searches will appear here once desktop search is connected."
+                                            <Label fx:id="recentSearchTitle" text="No searches yet" styleClass="empty-title" wrapText="true"/>
+                                            <Label fx:id="recentSearchDescription" text="Your latest search from this session will appear here."
                                                    styleClass="empty-copy" wrapText="true"/>
                                         </VBox>
                                     </VBox>
@@ -151,7 +179,7 @@
                                 <HBox alignment="CENTER" spacing="8.0" styleClass="footer-note">
                                     <Label text="BUILT FOR LOCAL FILES" styleClass="footer-note-label"/>
                                     <StackPane prefWidth="4.0" prefHeight="4.0" styleClass="footer-divider"/>
-                                    <Label text="SEEK7  ·  DESIGN FOUNDATION" styleClass="footer-note-label"/>
+                                    <Label text="SEEK7  ·  SEARCH EXPERIENCE" styleClass="footer-note-label"/>
                                 </HBox>
                             </VBox>
                         </StackPane>

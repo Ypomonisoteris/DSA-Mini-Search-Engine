@@ -1,8 +1,6 @@
 # SEEK7
 
-SEEK7 is a local-file mini search engine built as a Data Structures and Algorithms project. Version **1.1.0** introduces the foundation for a dark, professional JavaFX desktop application while keeping the original interactive command-line search engine available.
-
-The desktop screen establishes SEEK7 branding, navigation, a Search home view, a local document count, and clearly marked placeholders for search and autocomplete. Search, document browsing, and settings are not connected to the desktop interface yet; this version does not generate search results or sample history.
+SEEK7 is a local-file mini search engine built as a Data Structures and Algorithms project. Version **1.2.0** adds a functional JavaFX search experience to the dark professional desktop foundation, while preserving the original interactive command-line program.
 
 ## Requirements
 
@@ -10,38 +8,54 @@ The desktop screen establishes SEEK7 branding, navigation, a Search home view, a
 - Maven 3.9 or later
 - Visual Studio Code with the Extension Pack for Java (for VS Code development)
 
-JavaFX dependencies are resolved by Maven for the current operating system. No separate JavaFX SDK is needed.
+Maven resolves the JavaFX dependencies and native libraries for the current operating system. No separate JavaFX SDK is needed.
 
 ## Run the desktop application
 
-Open the repository folder in VS Code, allow the Java extension to import the Maven project, then run the `SEEK7: Run desktop app` task from **Terminal → Run Task**.
+Open the repository folder in VS Code, allow the Java extension to import the Maven project, then run the `SEEK7: Run desktop app` task from **Terminal > Run Task**.
 
-From a terminal in the repository root, the same command is:
+From a terminal in the repository root, run:
 
 ```bash
 mvn javafx:run
 ```
 
-To compile and package the application without launching it:
+Compile the application:
 
 ```bash
-mvn clean package
+mvn clean compile
 ```
 
-The initial window opens at 1440 × 900 and can be resized (minimum 1000 × 700). The document count is read from regular `.txt` files directly inside `documents/`; if that folder is absent, the desktop screen reports zero files and does not create sample data.
+Run the search service integration tests:
+
+```bash
+mvn test
+```
+
+The initial window opens at 1440 x 900 and can be resized (minimum 1000 x 700). The app indexes regular `.txt` files directly inside `documents/`. If the folder is absent, it starts with an empty index and does not create sample data.
 
 ### VS Code setup
 
 1. Install JDK 25 or later and Maven 3.9 or later.
 2. Set `JAVA_HOME` to the JDK installation and ensure Maven is on `PATH`.
 3. Open this repository folder in VS Code and install the recommended Extension Pack for Java.
-4. Let VS Code import the Maven dependencies, then choose **Terminal → Run Task → SEEK7: Run desktop app**.
+4. Let VS Code import the Maven dependencies, then choose **Terminal > Run Task > SEEK7: Run desktop app**.
 
-The included `.vscode` settings and tasks point the Java tooling at `JAVA_HOME` and provide build and run shortcuts. The Maven `javafx:run` goal is also available from the Maven view.
+The included `.vscode` settings and tasks point Java tooling at `JAVA_HOME` and provide build and run shortcuts. The Maven `javafx:run` goal is also available from the Maven view.
+
+## Search in the desktop app
+
+- Type one or more words and press Enter or click **Search**.
+- Choose **Any term** to match at least one query word or **All terms** to require every word. The UI also accepts the CLI-style `all:` prefix and selects All terms automatically.
+- As you type a word prefix, up to eight indexed Trie terms appear. Use Up/Down to highlight one, Enter to insert it, click to select it, and Escape to dismiss suggestions.
+- The query is trimmed and repeated whitespace is collapsed before search. Empty queries are rejected with an inline message.
+- Search runs off the JavaFX thread. A compact preview shows up to five ranked matches and any spelling hints returned by the existing engine.
+
+The UI does not include the full Version 1.3.0 results interface, persistent search history, document browsing, or settings yet.
 
 ## Run the original command-line search engine
 
-The original implementation remains at the repository root and is separate from the JavaFX source tree. It can still be run from the repository root with Java 11 or later:
+The original implementation remains unchanged at the repository root. It can still be run from the repository root with Java 11 or later:
 
 ```bash
 java MiniSearchEngine.java
@@ -60,30 +74,31 @@ javac MiniSearchEngine.java
 java MiniSearchEngine
 ```
 
-The CLI indexes `.txt` files in `documents/` and creates its 50 sample documents when that folder is missing or contains no text files. Its search implementation and behavior are unchanged by the desktop foundation.
+The CLI indexes `.txt` files in `documents/` and creates its 50 sample documents when that folder is missing or contains no text files. Its search implementation, commands, and source-launch workflow remain unchanged.
 
-## Desktop structure
+## Repository structure
 
 ```text
-MiniSearchEngine.java                 Existing command-line search engine
-documents/                            Sample plain-text search collection
-src/main/java/seek7/
-  Seek7Application.java               JavaFX entry point and resizable stage
-  service/DocumentLibrarySummary.java Counts local text documents
-  ui/SearchHomeController.java         Home view and visual navigation states
-  ui/components/IconFactory.java       Reusable vector icons
-src/main/resources/seek7/
-  ui/search-home.fxml                  Application layout
-  styles/theme.css                     Dark SEEK7 design system
-.vscode/                               Java tooling settings and run/build tasks
-pom.xml                                Java 25 and JavaFX Maven configuration
+MiniSearchEngine.java                       Original CLI search engine
+documents/                                  Local sample document collection
+src/main/java/seek7/Seek7Application.java   JavaFX application entry point
+src/main/java/seek7/service/                Service API and query model
+src/main/java/seek7/ui/                     Home controller and reusable icons
+src/main/java/MiniSearchEngineServiceProvider.java
+                                             Adapter for the default-package engine
+src/main/resources/seek7/ui/search-home.fxml JavaFX layout
+src/main/resources/seek7/styles/theme.css    SEEK7 design system and control states
+src/main/resources/META-INF/services/        Search service provider registration
+src/test/java/seek7/service/                 Search and Trie integration tests
+.vscode/                                     Java tooling settings and tasks
+pom.xml                                      Maven and JavaFX configuration
 ```
 
-## Design foundation
+## Search engine integration
 
-The initial palette follows the project brief: deep navy backgrounds, slate surfaces and borders, blue accents, and high-contrast text. CSS keeps the colors, typography, spacing, control states, and surface treatment separate from Java code. Layout spacing follows a 4px increment system, with 8px to 12px rounded surfaces. Inter is used for interface text and JetBrains Mono for compact technical labels when those fonts are installed; the JavaFX/system fallback is used otherwise.
+`MiniSearchEngine.java` remains in the default package so its CLI command continues to work. Maven copies that source into a generated source folder at build time. A `ServiceLoader` provider in the default package calls its existing `Engine`, `Trie`, scoring, and snippet methods and exposes them through the named-package `SearchEngineService` interface. The JavaFX controller contains no search, ranking, or autocomplete algorithms.
 
-Sidebar destinations switch between the Search home and small, explicitly marked placeholder screens. The search field is intentionally non-editable in this version. Recent searches start empty, and the library count reflects files found on disk.
+The existing palette, typography, sidebar, and layout are preserved. The search field, mode toggles, autocomplete dropdown, feedback, and compact result preview use the same surfaces, borders, and accent colors defined in `theme.css`.
 
 ## License
 
