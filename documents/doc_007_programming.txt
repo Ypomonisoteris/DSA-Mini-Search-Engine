@@ -1,0 +1,1 @@
+Recursion solves a problem by calling the function on smaller input. Explorers sailed across the ocean to find new trade routes. A hash table gives fast lookup using a hash function. Testing and debugging are essential parts of software development. A binary search tree keeps its keys in sorted order.

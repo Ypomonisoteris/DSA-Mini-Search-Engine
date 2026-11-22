@@ -1,0 +1,1 @@
+Drinking water and sleeping well support a strong immune system. A hash table gives fast lookup using a hash function. Recursion solves a problem by calling the function on smaller input. Testing and debugging are essential parts of software development. A binary search tree keeps its keys in sorted order.

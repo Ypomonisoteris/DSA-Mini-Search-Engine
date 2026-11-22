@@ -1,0 +1,1 @@
+The compiler converts source code into machine code. A hash table gives fast lookup using a hash function. Recursion solves a problem by calling the function on smaller input. Testing and debugging are essential parts of software development. Stretching reduces injury risk during running.

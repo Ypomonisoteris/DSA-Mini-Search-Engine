@@ -1,0 +1,1 @@
+The compiler converts source code into machine code. Recursion solves a problem by calling the function on smaller input. A binary search tree keeps its keys in sorted order. Explorers sailed across the ocean to find new trade routes. Testing and debugging are essential parts of software development.

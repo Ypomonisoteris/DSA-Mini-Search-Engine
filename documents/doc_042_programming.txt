@@ -1,0 +1,1 @@
+A hash table gives fast lookup using a hash function. Testing and debugging are essential parts of software development. The compiler converts source code into machine code. Recursion solves a problem by calling the function on smaller input. Museums preserve artifacts and tell the story of the past.

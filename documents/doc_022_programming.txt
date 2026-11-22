@@ -1,0 +1,1 @@
+A hash table gives fast lookup using a hash function. Stretching reduces injury risk during running. The compiler converts source code into machine code. A binary search tree keeps its keys in sorted order. Recursion solves a problem by calling the function on smaller input.

@@ -1,0 +1,1 @@
+Testing and debugging are essential parts of software development. A hash table gives fast lookup using a hash function. A balanced diet includes vegetables, fruit and protein. Recursion solves a problem by calling the function on smaller input. A binary search tree keeps its keys in sorted order.
