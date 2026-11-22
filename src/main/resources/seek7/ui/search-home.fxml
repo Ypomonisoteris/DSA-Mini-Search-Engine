@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/27" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="seek7.ui.SearchHomeController"
+            prefWidth="1440.0" prefHeight="900.0" styleClass="app-shell">
+    <left>
+        <VBox minWidth="250.0" prefWidth="250.0" maxWidth="250.0" styleClass="sidebar">
+            <padding><Insets top="32.0" right="16.0" bottom="16.0" left="16.0"/></padding>
+            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="brand-lockup">
+                <StackPane prefWidth="40.0" prefHeight="40.0" styleClass="brand-mark">
+                    <Label text="S" styleClass="brand-letter"/>
+                    <Label text="7" styleClass="brand-number"/>
+                </StackPane>
+                <VBox spacing="4.0">
+                    <Label text="SEEK7" styleClass="brand-name"/>
+                    <Label text="LOCAL SEARCH" styleClass="brand-caption"/>
+                </VBox>
+            </HBox>
+
+            <VBox spacing="8.0" styleClass="navigation-group">
+                <Label text="WORKSPACE" styleClass="navigation-caption"/>
+                <Button fx:id="searchNavigation" text="Search" onAction="#showSearch"
+                        styleClass="navigation-item, active" maxWidth="Infinity"/>
+                <Button fx:id="documentsNavigation" text="Documents" onAction="#showDocuments"
+                        styleClass="navigation-item" maxWidth="Infinity"/>
+                <Button fx:id="historyNavigation" text="Search History" onAction="#showHistory"
+                        styleClass="navigation-item" maxWidth="Infinity"/>
+                <Button fx:id="settingsNavigation" text="Settings" onAction="#showSettings"
+                        styleClass="navigation-item" maxWidth="Infinity"/>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox spacing="16.0" styleClass="sidebar-bottom">
+                <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="privacy-note">
+                    <StackPane prefWidth="8.0" prefHeight="8.0" styleClass="status-dot"/>
+                    <Label text="LOCAL BY DESIGN" styleClass="privacy-label"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="profile-card">
+                    <StackPane prefWidth="32.0" prefHeight="32.0" styleClass="profile-mark">
+                        <Label text="7" styleClass="profile-letter"/>
+                    </StackPane>
+                    <VBox spacing="4.0">
+                        <Label text="Personal workspace" styleClass="profile-title"/>
+                        <Label text="Version 1.1.0" styleClass="profile-caption"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <BorderPane styleClass="main-panel">
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="topbar">
+                    <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="breadcrumbs">
+                        <Label text="Workspace" styleClass="breadcrumb-muted"/>
+                        <Label text="/" styleClass="breadcrumb-divider"/>
+                        <Label fx:id="pageName" text="Search" styleClass="breadcrumb-current"/>
+                    </HBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <HBox alignment="CENTER" spacing="8.0" styleClass="local-badge">
+                        <StackPane prefWidth="8.0" prefHeight="8.0" styleClass="status-dot"/>
+                        <Label text="LOCAL WORKSPACE" styleClass="local-badge-label"/>
+                    </HBox>
+                </HBox>
+            </top>
+            <center>
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="content-scroll">
+                    <content>
+                        <StackPane fx:id="pageHost" alignment="TOP_CENTER" styleClass="page-host">
+                            <VBox fx:id="searchPage" alignment="TOP_CENTER" spacing="0.0" styleClass="search-page">
+                                <padding><Insets top="40.0" right="56.0" bottom="48.0" left="56.0"/></padding>
+
+                                <VBox alignment="CENTER" spacing="16.0" styleClass="hero-section">
+                                    <HBox alignment="CENTER" spacing="8.0" styleClass="hero-eyebrow">
+                                        <StackPane prefWidth="8.0" prefHeight="8.0" styleClass="accent-dot"/>
+                                        <Label text="A QUIETER WAY TO FIND" styleClass="eyebrow"/>
+                                    </HBox>
+                                    <Label text="Find what matters." styleClass="hero-title"/>
+                                    <Label text="Search across your local documents with clarity and focus."
+                                           styleClass="hero-description" wrapText="true" textAlignment="CENTER"/>
+
+                                    <VBox spacing="12.0" maxWidth="760.0" styleClass="search-block">
+                                        <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="search-field-shell">
+                                            <StackPane fx:id="searchIcon" prefWidth="24.0" prefHeight="24.0"/>
+                                            <TextField promptText="Search your documents..." editable="false"
+                                                       focusTraversable="false" styleClass="search-input" HBox.hgrow="ALWAYS"/>
+                                            <Label text="V1.1" styleClass="search-shortcut"/>
+                                        </HBox>
+                                        <VBox spacing="8.0" styleClass="suggestions-placeholder">
+                                            <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                                <Label text="AUTOCOMPLETE SUGGESTIONS" styleClass="support-label"/>
+                                                <Region HBox.hgrow="ALWAYS"/>
+                                                <Label text="COMING SOON" styleClass="suggestions-status"/>
+                                            </HBox>
+                                            <Label text="Matching terms will appear here as you search."
+                                                   styleClass="support-copy"/>
+                                        </VBox>
+                                    </VBox>
+                                </VBox>
+
+                                <HBox spacing="16.0" styleClass="overview-row">
+                                    <VBox spacing="16.0" HBox.hgrow="ALWAYS" styleClass="overview-card recent-card">
+                                        <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                            <VBox spacing="4.0">
+                                                <Label text="Recent searches" styleClass="card-title"/>
+                                                <Label text="Your search activity, in one place." styleClass="card-description"/>
+                                            </VBox>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <Label text="0" styleClass="count-pill"/>
+                                        </HBox>
+                                        <VBox alignment="CENTER_LEFT" spacing="8.0" styleClass="empty-state">
+                                            <Label text="No searches yet" styleClass="empty-title"/>
+                                            <Label text="Searches will appear here once desktop search is connected."
+                                                   styleClass="empty-copy" wrapText="true"/>
+                                        </VBox>
+                                    </VBox>
+
+                                    <VBox spacing="16.0" prefWidth="288.0" minWidth="240.0" styleClass="overview-card library-card">
+                                        <VBox spacing="4.0">
+                                            <Label text="Library overview" styleClass="card-title"/>
+                                            <Label text="Your local collection." styleClass="card-description"/>
+                                        </VBox>
+                                        <HBox alignment="BOTTOM_LEFT" spacing="8.0" styleClass="document-stat">
+                                            <Label fx:id="documentCount" text="—" styleClass="stat-number"/>
+                                            <VBox spacing="4.0" styleClass="stat-unit">
+                                                <Label text="TEXT FILES" styleClass="stat-unit-label"/>
+                                                <Label text="in this workspace" styleClass="stat-unit-copy"/>
+                                            </VBox>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="source-row">
+                                            <StackPane fx:id="folderIcon" prefWidth="16.0" prefHeight="16.0"/>
+                                            <Label text="documents/" styleClass="source-path"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <Label text=".TXT" styleClass="format-pill"/>
+                                        </HBox>
+                                    </VBox>
+                                </HBox>
+
+                                <HBox alignment="CENTER" spacing="8.0" styleClass="footer-note">
+                                    <Label text="BUILT FOR LOCAL FILES" styleClass="footer-note-label"/>
+                                    <StackPane prefWidth="4.0" prefHeight="4.0" styleClass="footer-divider"/>
+                                    <Label text="SEEK7  ·  DESIGN FOUNDATION" styleClass="footer-note-label"/>
+                                </HBox>
+                            </VBox>
+                        </StackPane>
+                    </content>
+                </ScrollPane>
+            </center>
+        </BorderPane>
+    </center>
+</BorderPane>

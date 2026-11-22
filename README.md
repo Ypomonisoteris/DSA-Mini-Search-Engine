@@ -1,72 +1,89 @@
-# Mini Search Engine
+# SEEK7
 
-A small, local-file search engine written in Java for a data structures and algorithms project. It indexes plain-text documents, searches them from an interactive command line, and ranks matches with a TF-IDF-style score. It does not crawl the web or use AI.
+SEEK7 is a local-file mini search engine built as a Data Structures and Algorithms project. Version **1.1.0** introduces the foundation for a dark, professional JavaFX desktop application while keeping the original interactive command-line search engine available.
+
+The desktop screen establishes SEEK7 branding, navigation, a Search home view, a local document count, and clearly marked placeholders for search and autocomplete. Search, document browsing, and settings are not connected to the desktop interface yet; this version does not generate search results or sample history.
 
 ## Requirements
 
-- Java 11 or later
-- No third-party dependencies
+- JDK 25 or later
+- Maven 3.9 or later
+- Visual Studio Code with the Extension Pack for Java (for VS Code development)
 
-## Run
+JavaFX dependencies are resolved by Maven for the current operating system. No separate JavaFX SDK is needed.
 
-From the repository root, start the interactive search prompt with Java's source-file launcher:
+## Run the desktop application
+
+Open the repository folder in VS Code, allow the Java extension to import the Maven project, then run the `SEEK7: Run desktop app` task from **Terminal → Run Task**.
+
+From a terminal in the repository root, the same command is:
+
+```bash
+mvn javafx:run
+```
+
+To compile and package the application without launching it:
+
+```bash
+mvn clean package
+```
+
+The initial window opens at 1440 × 900 and can be resized (minimum 1000 × 700). The document count is read from regular `.txt` files directly inside `documents/`; if that folder is absent, the desktop screen reports zero files and does not create sample data.
+
+### VS Code setup
+
+1. Install JDK 25 or later and Maven 3.9 or later.
+2. Set `JAVA_HOME` to the JDK installation and ensure Maven is on `PATH`.
+3. Open this repository folder in VS Code and install the recommended Extension Pack for Java.
+4. Let VS Code import the Maven dependencies, then choose **Terminal → Run Task → SEEK7: Run desktop app**.
+
+The included `.vscode` settings and tasks point the Java tooling at `JAVA_HOME` and provide build and run shortcuts. The Maven `javafx:run` goal is also available from the Maven view.
+
+## Run the original command-line search engine
+
+The original implementation remains at the repository root and is separate from the JavaFX source tree. It can still be run from the repository root with Java 11 or later:
 
 ```bash
 java MiniSearchEngine.java
 ```
 
-Or compile first, then run the compiled class:
+Run its scripted example with:
+
+```bash
+java MiniSearchEngine.java --demo
+```
+
+Or compile and run it explicitly:
 
 ```bash
 javac MiniSearchEngine.java
 java MiniSearchEngine
 ```
 
-Run a scripted demonstration instead of opening the prompt:
+The CLI indexes `.txt` files in `documents/` and creates its 50 sample documents when that folder is missing or contains no text files. Its search implementation and behavior are unchanged by the desktop foundation.
 
-```bash
-java MiniSearchEngine.java --demo
-```
-
-The program reads `.txt` files from `documents/`, in filename order. The repository includes 50 sample documents. If the folder is missing or contains no `.txt` files, the program creates 50 sample documents before indexing.
-
-## Search commands
-
-At the prompt, enter a search or command:
-
-| Command | Description |
-| --- | --- |
-| `rocket orbit` | Search for documents containing any query term; results are ranked by score. |
-| `all: garlic olive` | Return documents containing every query term. |
-| `/complete pro` | Suggest up to eight indexed terms beginning with `pro`. |
-| `/related 0` | Find documents related to document ID `0`, up to two graph hops away. |
-| `/open 0` | Print the full text of document ID `0`. |
-| `/history` | Show up to ten recent searches, newest first. |
-| `/back` | Re-run the previous search. |
-| `/help` | Show the command list. |
-| `/quit` | Exit the program. |
-
-Document IDs are assigned from `0` in sorted filename order when the index is built. Search snippets show up to 90 characters around a matching term.
-
-## How it works
-
-- Text is lowercased, split into letter-and-number terms, and filtered through a small built-in stopword list.
-- A custom hash table stores an inverted index of terms and their document postings. Term frequency is kept in linked posting lists.
-- Search scores combine term frequency normalized by document length with inverse document frequency. The default search uses any matching query term; `all:` intersects postings so every query term must be present.
-- A trie provides prefix autocomplete. A min-heap keeps the top results, followed by merge sort for display order.
-- Unknown terms may receive a "Did you mean?" suggestion based on edit distance.
-- A document graph connects files that share at least two of their top five weighted terms; breadth-first search finds related documents.
-- A stack stores search history, and a queue is used while loading files and traversing the graph.
-
-The source code also demonstrates arrays, binary search, recursion, and dynamic programming. All indexing is in memory and is rebuilt each time the program starts.
-
-## Repository layout
+## Desktop structure
 
 ```text
-MiniSearchEngine.java   Search engine implementation and command-line interface
-documents/              Sample plain-text documents indexed at startup
-LICENSE                 MIT License
+MiniSearchEngine.java                 Existing command-line search engine
+documents/                            Sample plain-text search collection
+src/main/java/seek7/
+  Seek7Application.java               JavaFX entry point and resizable stage
+  service/DocumentLibrarySummary.java Counts local text documents
+  ui/SearchHomeController.java         Home view and visual navigation states
+  ui/components/IconFactory.java       Reusable vector icons
+src/main/resources/seek7/
+  ui/search-home.fxml                  Application layout
+  styles/theme.css                     Dark SEEK7 design system
+.vscode/                               Java tooling settings and run/build tasks
+pom.xml                                Java 25 and JavaFX Maven configuration
 ```
+
+## Design foundation
+
+The initial palette follows the project brief: deep navy backgrounds, slate surfaces and borders, blue accents, and high-contrast text. CSS keeps the colors, typography, spacing, control states, and surface treatment separate from Java code. Layout spacing follows a 4px increment system, with 8px to 12px rounded surfaces. Inter is used for interface text and JetBrains Mono for compact technical labels when those fonts are installed; the JavaFX/system fallback is used otherwise.
+
+Sidebar destinations switch between the Search home and small, explicitly marked placeholder screens. The search field is intentionally non-editable in this version. Recent searches start empty, and the library count reflects files found on disk.
 
 ## License
 

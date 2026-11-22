@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "SEEK7: Build JavaFX app",
+      "type": "shell",
+      "command": "mvn",
+      "args": ["clean", "package"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "SEEK7: Run desktop app",
+      "type": "shell",
+      "command": "mvn",
+      "args": ["javafx:run"],
+      "problemMatcher": []
+    }
+  ]
+}
